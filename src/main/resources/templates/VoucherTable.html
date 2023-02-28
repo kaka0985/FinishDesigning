@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/layui-style/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layui-style/css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">卡券名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="voucher_name" autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">适用场景</label>
+                            <div class="layui-input-inline">
+                                <select name="voucher_scene" lay-verify="">
+                                    <option value="">所有</option>
+                                    <option value="1">无门槛</option>
+                                    <option value="2">会员专享</option>
+                                    <option value="3">电影</option>
+                                    <option value="4">电视剧</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜索
+                            </button>
+                        </div>
+                    </div>
+                </form>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="abcd" th:each="l,sta:${list}">
+            <!--            <p  th:if="${l.enable}==0">是</p>-->
+            <!--            <p  th:if="${l.enable}==1">否</p>-->
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+        </script>
+
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <!--            <a class="layui-btn  layui-btn-normal layui-btn-xs data-count-edit" lay-event="section">章节</a>-->
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+    </div>
+</div>
+<script type="text/html" id="imgTpl">
+    <img src="{{ d.voucher_img }}">
+</script>
+<script src="/layui-style/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script th:inline="none">
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        layer = layui.layer;
+        table.render({
+            elem: '#currentTableId',
+            url: '/voucher/getVoucherList',
+            toolbar: '#toolbarDemo',
+            toolbar2: '#abcd',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [
+                [
+                    {field: 'voucher_id', width: 100, title: '卡券ID'},
+                    {field: 'voucher_name', width: 150, title: '卡券名称'},
+                    {
+                        field: 'voucher_scene', title: '应用场景', templet: function (list) {
+                            if (list.voucher_scene == 1) {
+                                res = "无门槛"
+                            } else if(list.voucher_scene == 2){
+                                res = "会员"
+                            }else if(list.voucher_scene == 3){
+                                res = "电影"
+                            }else {
+                                res = "电视剧"
+                            }
+                            return res;
+                        }
+                    },
+                    {field: 'voucher_count', width: 100, title: '数量'},
+                    {field: 'voucher_mon', width: 100, title: '优惠金额'},
+                    {field: 'start_time', width: 150, title: '开始时间'},
+                    {field: 'end_time', width: 150, title: '结束时间'},
+                    {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+                ]
+            ],
+            limits: [3, 6, 9],
+            limit: 3,
+            page: true,
+            skin: 'line'
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            var voucher_name = data.field.voucher_name;
+            var voucher_scene = data.field.voucher_scene;
+            table.render({
+                elem: '#currentTableId',
+                url: '/voucher/getVoucherListByVoucherName?voucher_name=' + voucher_name +'&voucher_scene='+voucher_scene,
+                toolbar: '#toolbarDemo',
+                toolbar2: '#abcd',
+                defaultToolbar: ['filter', 'exports', 'print', {
+                    title: '提示',
+                    layEvent: 'LAYTABLE_TIPS',
+                    icon: 'layui-icon-tips'
+                }],
+                cols: [
+                    [
+                        {field: 'voucher_id', width: 100, title: '卡券ID'},
+                        {field: 'voucher_name', width: 150, title: '卡券名称'},
+                        {
+                            field: 'voucher_scene', title: '应用场景', templet: function (list) {
+                                if (list.voucher_scene == 1) {
+                                    res = "无门槛"
+                                } else if(list.voucher_scene == 2){
+                                    res = "会员"
+                                }else if(list.voucher_scene == 3){
+                                    res = "电影"
+                                }else {
+                                    res = "电视剧"
+                                }
+                                return res;
+                            }
+                        },
+                        {field: 'voucher_count', width: 100, title: '数量'},
+                        {field: 'voucher_mon', width: 100, title: '优惠金额'},
+                        {field: 'start_time', width: 150, title: '开始时间'},
+                        {field: 'end_time', width: 150, title: '结束时间'},
+                        {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+                    ]
+                ],
+                limits: [3, 6, 9],
+                limit: 3,
+                page: true,
+                skin: 'line'
+                });
+            return false;
+            });
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  // 监听添加操作
+                var index = layer.open({
+                    title: '添加卡券活动',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '/dispatcher/Voucher/VoucherAdd.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            }
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                console.log(obj)
+                var index = layer.open({
+                    title: '编辑卡券活动',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '/dispatcher/Voucher/VoucherEdit.html?voucher_id=' + data.voucher_id,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                    $.ajax({
+                        type: "post",
+                        ansyv: true,
+                        data: data.field,
+                        datatype: "json",
+                        url: "http://localhost:8080/voucher/deleteVoucher?voucher_id=" + data.voucher_id,
+                        success: function (data) {
+                            var flag = data.success;
+                            if (flag) {
+                                layer.alert(JSON.stringify('删除成功'));
+                            } else {
+                                layer.alert(JSON.stringify('删除失败'));
+                            }
+                        },
+                        error: function () {
+                            alert("请求出错!");
+                        }
+                    });
+                });
+            }
+        });
+        })
+</script>
+
+</body>
+</html>

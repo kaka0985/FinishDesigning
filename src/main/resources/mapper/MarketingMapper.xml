@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wen.mapper.MarketingMapper">
+
+   <select id="getMarketingList" parameterType="com.wen.pojo.Marketing" resultType="com.wen.pojo.Marketing">
+       select * from marketing
+   </select>
+    <select id="selectByMarketingName" parameterType="com.wen.pojo.Marketing" resultType="com.wen.pojo.Marketing">
+        select * from marketing where marketing_name like "%${marketing_name}%" and marketing_people like "%${marketing_people}%"
+    </select>
+    <select id="getMarketingByIdAccurate" parameterType="com.wen.pojo.Marketing" resultType="com.wen.pojo.Marketing">
+       select * from marketing where marketing_id="${marketing_id}"
+   </select>
+    <update id="updateMarketing" parameterType="com.wen.pojo.Marketing">
+        update marketing
+        <set >
+            marketing_name = #{marketing_name},
+            marketing_people = #{marketing_people},
+            marketing_dis = #{marketing_dis},
+            start_time = #{start_time},
+            marketing_status = #{marketing_status},
+            end_time = #{end_time},
+        </set>
+        where marketing_id = #{marketing_id}
+    </update>
+    <insert id="addMarketing" parameterType="com.wen.pojo.Marketing">
+        insert into marketing (marketing_name,marketing_people,marketing_dis,start_time,marketing_status,end_time)
+        values (#{marketing_name},#{marketing_people},#{marketing_dis},#{start_time},#{marketing_status},#{end_time});
+    </insert>
+    <delete id="deleteMarketing" parameterType="Integer">
+        delete from marketing where marketing_id="${marketing_id}"
+    </delete>
+</mapper>

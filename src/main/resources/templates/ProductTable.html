@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/layui-style/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layui-style/css/public.css" media="all">
+    <style type="text/css">
+        .layui-table-cell{
+            height: auto!important;
+            white-space: normal;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">产品名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="product_name" autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">频道</label>
+                            <div class="layui-input-inline">
+                                <select name="product_cannel" lay-verify="">
+                                    <option value="">所有</option>
+                                    <option value="1">直播</option>
+                                    <option value="2">电视剧</option>
+                                    <option value="3">电影</option>
+                                    <option value="4">少儿</option>
+                                    <option value="5">综艺</option>
+                                    <option value="6">新闻</option>
+                                    <option value="7">体育</option>
+                                    <option value="8">纪实</option>
+                                    <option value="9">生活</option>
+                                </select>
+                            </div>
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="product_status" lay-verify="">
+                                    <option value="">所有</option>
+                                    <option value="1">已上线</option>
+                                    <option value="0">未上线</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜索
+                            </button>
+                        </div>
+                    </div>
+                </form>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="abcd" th:each="l,sta:${list}">
+            <!--            <p  th:if="${l.enable}==0">是</p>-->
+            <!--            <p  th:if="${l.enable}==1">否</p>-->
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+        </script>
+
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <!--            <a class="layui-btn  layui-btn-normal layui-btn-xs data-count-edit" lay-event="section">章节</a>-->
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+    </div>
+</div>
+<script type="text/html" id="imgTpl">
+    <img src="{{ d.product_img }}">
+</script>
+<script src="/layui-style/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script th:inline="none">
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        layer = layui.layer;
+        table.render({
+            elem: '#currentTableId',
+            url: '/product/getProductList',
+            toolbar: '#toolbarDemo',
+            toolbar2: '#abcd',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [
+                [
+                    {field: 'product_id', width: 100, title: '产品ID'},
+                    {field: 'product_name', width: 100, title: '产品名'},
+                    {
+                        field: 'product_cannel', title: '频道信息', templet: function (list) {
+                            if (list.product_cannel == 1) {
+                                res = "直播"
+                            } else if (list.product_cannel == 2) {
+                                res = "电视剧"
+                            } else if (list.product_cannel == 3) {
+                                res = "电影"
+                            } else if (list.product_cannel == 4) {
+                                res = "少儿"
+                            } else if (list.product_cannel == 5) {
+                                res = "综艺"
+                            } else if (list.product_cannel == 6) {
+                                res = "新闻"
+                            } else if (list.product_cannel == 7) {
+                                res = "体育"
+                            } else if (list.product_cannel == 8) {
+                                res = "纪实"
+                            } else if (list.product_cannel == 9) {
+                                res = "生活"
+                            }
+                            return res;
+                        }
+                    },
+                    {field: 'product_price', width: 100, title: '价格/元'},
+                    {field: 'product_package', width: 100, title: '套餐'},
+                    {
+                        field: 'product_status', title: '状态', templet: function (list) {
+                            if (list.product_status == 1) {
+                                res = "上线"
+                            } else {
+                                res = "未上线"
+                            }
+                            return res;
+                        }
+                    },
+                    {field: 'product_img', width: 100, title: '产品图片',templet:'#imgTpl'},
+                    {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+                ]
+            ],
+            limits: [3, 6, 9],
+            limit: 3,
+            page: true,
+            skin: 'line'
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            // var result = JSON.stringify(data.field);
+            // layer.alert(result, {
+            //     title: '最终的搜索信息',
+            //     content:data.field.user_name
+            // });
+            var product_name = data.field.product_name;
+            var product_cannel = data.field.product_cannel;
+            var product_status = data.field.product_status;
+            table.render({
+                elem: '#currentTableId',
+                url: '/product/getProductListByProductName?product_name=' + product_name + '&product_cannel=' + product_cannel +'&product_status='+product_status,
+                toolbar: '#toolbarDemo',
+                toolbar2: '#abcd',
+                defaultToolbar: ['filter', 'exports', 'print', {
+                    title: '提示',
+                    layEvent: 'LAYTABLE_TIPS',
+                    icon: 'layui-icon-tips'
+                }],
+                cols: [
+                    [
+                        {field: 'product_id', width: 100, title: '产品ID'},
+                        {field: 'product_name', width: 100, title: '产品名'},
+                        {
+                            field: 'product_cannel', title: '频道信息', templet: function (list) {
+                                if (list.product_cannel == 1) {
+                                    res = "直播"
+                                } else if (list.product_cannel == 2) {
+                                    res = "电视剧"
+                                } else if (list.product_cannel == 3) {
+                                    res = "电影"
+                                } else if (list.product_cannel == 4) {
+                                    res = "少儿"
+                                } else if (list.product_cannel == 5) {
+                                    res = "综艺"
+                                } else if (list.product_cannel == 6) {
+                                    res = "新闻"
+                                } else if (list.product_cannel == 7) {
+                                    res = "体育"
+                                } else if (list.product_cannel == 8) {
+                                    res = "纪实"
+                                } else if (list.product_cannel == 9) {
+                                    res = "生活"
+                                }
+                                return res;
+                            }
+                        },
+                        {field: 'product_price', width: 100, title: '价格/元'},
+                        {field: 'product_package', width: 100, title: '套餐'},
+                        {
+                            field: 'product_status', title: '状态', templet: function (list) {
+                                if (list.product_status == 1) {
+                                    res = "上线"
+                                } else {
+                                    res = "未上线"
+                                }
+                                return res;
+                            }
+                        },
+                        {field: 'product_img', width: 100, title: '产品图片',templet:'#imgTpl'},
+                        {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+                    ]
+                ],
+                limits: [3, 6, 9],
+                limit: 3,
+                page: true,
+                skin: 'line'
+            });
+
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    user_name: data.field.user_name
+                }
+            }, 'data');
+
+            return false;
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  // 监听添加操作
+                var index = layer.open({
+                    title: '添加产品',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '../dispatcher/Product/ProductAdd.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            }
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                console.log(obj)
+                var index = layer.open({
+                    title: '编辑产品',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '../dispatcher/Product/ProductEdit.html?product_id=' + data.product_id,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                    $.ajax({
+                        type: "post",
+                        ansyv: true,
+                        data: data.field,
+                        datatype: "json",
+                        url: "http://localhost:8080/product/deleteProduct?product_id=" + data.product_id,
+                        success: function (data) {
+                            var flag = data.success;
+                            if (flag) {
+                                layer.alert(JSON.stringify('删除成功'));
+                                // window.location.href = "http://localhost:8080/product/table";
+                            } else {
+                                layer.alert(JSON.stringify('删除失败'));
+                            }
+                        },
+                        error: function () {
+                            alert("请求出错!");
+                        }
+                    });
+                });
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

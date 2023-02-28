@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wen.mapper.PackageMapper">
+
+   <select id="getPackageList" parameterType="com.wen.pojo.ProPackage" resultType="com.wen.pojo.ProPackage">
+       select * from package
+   </select>
+    <select id="getPackageByIdAccurate" parameterType="com.wen.pojo.ProPackage" resultType="com.wen.pojo.ProPackage">
+       select * from package where package_id="${package_id}"
+   </select>
+    <select id="selectByProPackageName" parameterType="com.wen.pojo.ProPackage" resultType="com.wen.pojo.ProPackage">
+        select * from package where package_name like "%${package_name}%" and package_status like "%${package_status}%"
+    </select>
+    <update id="updatePackage" parameterType="com.wen.pojo.ProPackage">
+        update package
+        <set >
+            package_name = #{package_name},
+            package_cannel = #{package_cannel},
+            package_price = #{package_price},
+            package_programId = #{package_programId},
+            package_programName = #{package_programName},
+            package_status = #{package_status},
+            package_time = #{package_time},
+        </set>
+        where package_id = #{package_id}
+    </update>
+    <insert id="addPackage" parameterType="com.wen.pojo.ProPackage">
+        insert into package (package_name,package_price,package_programId,package_status,package_programName,package_cannel,package_time)
+        values (#{package_name},#{package_price},#{package_programId},#{package_status},#{package_programName},#{package_cannel},#{package_time});
+    </insert>
+    <delete id="deletePackage" parameterType="Integer">
+        delete from package where package_id="${package_id}"
+    </delete>
+</mapper>

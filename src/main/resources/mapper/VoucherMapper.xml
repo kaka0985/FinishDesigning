@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wen.mapper.VoucherMapper">
+
+   <select id="getVoucherList" parameterType="com.wen.pojo.Voucher" resultType="com.wen.pojo.Voucher">
+       select * from voucher
+   </select>
+    <select id="selectByVoucherName" parameterType="com.wen.pojo.Voucher" resultType="com.wen.pojo.Voucher">
+        select * from voucher where voucher_name like "%${voucher_name}%" and voucher_scene like "%${voucher_scene}%"
+    </select>
+        <insert id="addVoucher" parameterType="com.wen.pojo.Voucher">
+            insert into voucher (voucher_name,voucher_count,voucher_scene,start_time,voucher_mon,end_time)
+            values (#{voucher_name},#{voucher_count},#{voucher_scene},#{start_time},#{voucher_mon},#{end_time});
+        </insert>
+    <select id="getVoucherByIdAccurate" parameterType="com.wen.pojo.Voucher" resultType="com.wen.pojo.Voucher">
+       select * from voucher where Voucher_id="${Voucher_id}"
+   </select>
+    <update id="updateVoucher" parameterType="com.wen.pojo.Voucher">
+        update voucher
+        <set >
+            voucher_name = #{voucher_name},
+            voucher_count = #{voucher_count},
+            voucher_scene = #{voucher_scene},
+            start_time = #{start_time},
+            voucher_mon = #{voucher_mon},
+            end_time = #{end_time},
+        </set>
+        where voucher_id = #{voucher_id}
+    </update>
+    <delete id="deleteVoucher" parameterType="Integer">
+        delete from voucher where voucher_id="${voucher_id}"
+    </delete>
+</mapper>

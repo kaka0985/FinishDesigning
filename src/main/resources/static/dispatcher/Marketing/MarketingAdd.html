@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/../layui-style/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/../layui-style/css/public.css" media="all">
+    <style type="text/css">
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form" lay-filter="add">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">套餐名</label>
+        <div class="layui-input-block">
+            <input type="text" name="marketing_name" id="marketing_name" lay-verify="required" lay-reqtext="不能为空"  value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required" name="sex">适用人群</label>
+        <div class="layui-input-block">
+            <select name="marketing_people" id="marketing_people" lay-verify="">
+                <option value="0">所有人群</option>
+                <option value="1">会员</option>
+                <option value="2">普通</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">折扣</label>
+        <div class="layui-input-block">
+            <input type="text" name="marketing_dis"  id="marketing_dis" lay-verify="required" lay-reqtext="不能为空"   value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required" name="sex">状态</label>
+        <div class="layui-input-block">
+            <select name="marketing_status" id="marketing_status" lay-verify="">
+                <option value="1">上线</option>
+                <option value="0">未上线</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">开始日期</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" name="start_time" id="start_time" lay-verify="required" lay-reqtext="不能为空" type="text" placeholder="yyyy-MM-dd">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">结束日期</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" name="end_time" id="end_time" lay-verify="required" lay-reqtext="不能为空" type="text" placeholder="yyyy-MM-dd">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<script src="/../layui-style/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/../layui-style/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="/../layui-style/lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
+<script src="/../layui-style/lib/jq-module/zyupload/zyupload-1.0.0.min.js" charset="utf-8"></script>
+<script>
+<!--  引用时间  -->
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#start_time'
+        });
+    });
+layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#end_time'
+        });
+    });
+
+    layui.use(['form'], function () {
+        var form = layui.form;
+        var files=this.files,
+            layer = layui.layer,
+            $ = layui.$;
+        console.log("files2",files)
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            $.ajax({
+                type:"post",
+                ansyv:true,
+                data: data.field,
+                datatype:"json",
+                url:"http://localhost:8080/marketing/addMarketing",
+                success:function(data){
+                    var flag = data.success;
+                    if (flag){
+                        var index = layer.alert(JSON.stringify(data.mesg), {
+                            title: "操作信息",
+                        }, function () {
+                            // 关闭弹出层
+                            layer.close(index);
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                            window.parent.location.reload();
+
+                        });
+                    }else{
+                        var index = layer.alert(JSON.stringify(data.mesg), {
+                            title: "操作信息",
+                        })
+                    }
+                },
+                error:function(){
+                    alert("请求出错!");
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

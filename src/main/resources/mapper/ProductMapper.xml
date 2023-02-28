@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wen.mapper.ProductMapper">
+
+   <select id="getProductList" parameterType="com.wen.pojo.Product" resultType="com.wen.pojo.Product">
+       select * from product
+   </select>
+    <select id="getProductByIdAccurate" parameterType="com.wen.pojo.Product" resultType="com.wen.pojo.Product">
+       select * from product where product_id="${product_id}"
+   </select>
+    <select id="selectByProductName" parameterType="com.wen.pojo.Product" resultType="com.wen.pojo.Product">
+        select * from product where product_name like "%${product_name}%" and product_cannel like "%${product_cannel}%" and product_status like "%${product_status}%"
+    </select>
+    <select id="getProductListByStatus" parameterType="com.wen.pojo.Product" resultType="com.wen.pojo.Product">
+        select * from product where product_price > "0"  and product_status like "%${product_status}%"
+    </select>
+    <update id="updateProduct" parameterType="com.wen.pojo.Product">
+        update product
+        <set >
+            product_name = #{product_name},
+            product_cannel = #{product_cannel},
+            product_price = #{product_price},
+            product_package = #{product_package},
+            product_status = #{product_status},
+            product_img = #{product_img},
+        </set>
+        where product_id = #{product_id}
+    </update>
+    <insert id="addProduct" parameterType="com.wen.pojo.Product">
+        insert into product (product_name,product_cannel,product_price,product_package,product_status,product_img)
+        values (#{product_name},#{product_cannel},#{product_price},#{product_package},#{product_status},#{product_img});
+    </insert>
+    <delete id="deleteProduct" parameterType="Integer">
+        delete from product where product_id="${product_id}"
+    </delete>
+</mapper>

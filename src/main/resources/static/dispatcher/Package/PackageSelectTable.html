@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/layui-style/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layui-style/css/public.css" media="all">
+    <style type="text/css">
+        .layui-table-cell{
+            height: auto!important;
+            white-space: normal;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+</body>
+<!--<script type="text/html" id="toolbarDemo">-->
+<!--    <div class="layui-btn-container">-->
+<!--        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">-->
+<!--            获取选中行数据-->
+<!--        </button>-->
+<!--    </div>-->
+<!--</script>-->
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
+    </div>
+</script>
+<script type="text/html" id="imgTpl">
+    <img src="{{ d.product_img }}">
+</script>
+<script src="/layui-style/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script th:inline="none">
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        layer = layui.layer;
+        table.render({
+            elem: '#currentTableId',
+            url: '/product/getProductListByStatus',
+            toolbar: '#toolbarDemo',
+            toolbar2: '#abcd',
+            id:'product_id',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [
+                [   {type:'numbers'},
+                    {type:'checkbox'},
+                    {field: 'product_id', width: 100, title: '产品ID', sort: true},
+                    {field: 'product_name', width: 100, title: '产品名'},
+                    {
+                        field: 'product_cannel', title: '频道信息', templet: function (list) {
+                            if (list.product_cannel == 1) {
+                                res = "直播"
+                            } else if (list.product_cannel == 2) {
+                                res = "电视剧"
+                            } else if (list.product_cannel == 3) {
+                                res = "电影"
+                            } else if (list.product_cannel == 4) {
+                                res = "少儿"
+                            } else if (list.product_cannel == 5) {
+                                res = "综艺"
+                            } else if (list.product_cannel == 6) {
+                                res = "新闻"
+                            } else if (list.product_cannel == 7) {
+                                res = "体育"
+                            } else if (list.product_cannel == 8) {
+                                res = "纪实"
+                            } else if (list.product_cannel == 9) {
+                                res = "生活"
+                            }
+                            return res;
+                        }
+                    },
+                    {field: 'product_price', width: 100, title: '价格/元'},
+                    {field: 'product_package', width: 100, title: '套餐'},
+                    {
+                        field: 'product_status', title: '状态', templet: function (list) {
+                            if (list.product_status == 1) {
+                                res = "上线"
+                            } else {
+                                res = "未上线"
+                            }
+                            return res;
+                        }
+                    },
+                    {field: 'product_img', width: 100, title: '产品图片',templet:'#imgTpl'},
+                    {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+                ]
+            ],
+            limits: [3, 6, 9],
+            limit: 3,
+            page: true,
+            skin: 'line'
+        });
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  // 监听添加操作
+                var checkStatus = table.checkStatus(obj.config.id);
+                console.log(checkStatus);
+                //获取被选中的记录的数组
+                var data=checkStatus.data;
+                //将数组解析成字符串
+                var index = layer.alert("添加成功", {
+                    title: "操作信息",
+                }, function () {
+                    // 关闭弹出层
+                    parent.ppp(data);
+                    //关闭 子页面
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                });
+            }
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                console.log(obj)
+                var index = layer.open({
+                    title: '编辑产品',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '../dispatcher/ProductEdit.html?product_id=' + data.product_id,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                    $.ajax({
+                        type: "post",
+                        ansyv: true,
+                        data: data.field,
+                        datatype: "json",
+                        url: "http://localhost:8080/product/deleteProduct?product_id=" + data.product_id,
+                        success: function (data) {
+                            var flag = data.success;
+                            if (flag) {
+                                layer.alert(JSON.stringify('删除成功'));
+                                window.location.href = "http://localhost:8080/product/table";
+                            } else {
+                                layer.alert(JSON.stringify('删除失败'));
+                            }
+                        },
+                        error: function () {
+                            alert("请求出错!");
+                        }
+                    });
+                });
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

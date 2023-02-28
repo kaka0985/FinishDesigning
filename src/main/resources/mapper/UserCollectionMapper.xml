@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wen.mapper.UserCollectionMapper">
+
+   <select id="getCollectionList" parameterType="com.wen.pojo.UserCollection" resultType="com.wen.pojo.UserCollection">
+       select * from collection
+   </select>
+    <select id="selectByCollectionUserID" parameterType="com.wen.pojo.UserCollection" resultType="com.wen.pojo.UserCollection">
+        select * from collection where collection_userId like "%${collection_userId}%" and collection_voucherId like "%${collection_voucherId}%"
+    </select>
+</mapper>
