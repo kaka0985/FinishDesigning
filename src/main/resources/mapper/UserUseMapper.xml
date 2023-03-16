@@ -6,4 +6,7 @@
     <select id="selectByUserName" parameterType="com.wen.pojo.User" resultType="com.wen.pojo.User">
         select * from user where userid=#{userid} and password=#{password}
     </select>
+    <select id="searchByName" parameterType="String" resultType="com.wen.pojo.Product">
+        select  *from product where product_name like "%${text}%"
+    </select>
 </mapper>

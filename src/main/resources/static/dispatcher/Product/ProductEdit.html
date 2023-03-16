@@ -87,6 +87,12 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label ">描述</label>
+        <div class="layui-input-block">
+            <textarea type="text" name="product_desc"  id="product_desc" style="height: 200px"  value="" class="layui-input"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
         </div>
@@ -182,6 +188,7 @@
                         "product_package": data.product_package,
                         "product_status": data.product_status,
                         "product_img": data.product_img,
+                        "product_desc": data.product_desc,
                     })
                 },
                 error:function(){

@@ -8,6 +8,6 @@
        select * from collection
    </select>
     <select id="selectByCollectionUserID" parameterType="com.wen.pojo.UserCollection" resultType="com.wen.pojo.UserCollection">
-        select * from collection where collection_userId like "%${collection_userId}%" and collection_voucherId like "%${collection_voucherId}%"
+        select * from collection where collection_userId like "%${collection_userId}%" or collection_voucherId like "%${collection_voucherId}%"
     </select>
 </mapper>

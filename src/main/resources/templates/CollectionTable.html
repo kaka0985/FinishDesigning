@@ -22,10 +22,10 @@
                             <div class="layui-input-inline">
                                 <input type="text" name="collection_userId" autocomplete="off" class="layui-input">
                             </div>
-                            <label class="layui-form-label">卡券ID</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="collection_voucherId" autocomplete="off" class="layui-input">
-                            </div>
+<!--                            <label class="layui-form-label">卡券ID</label>-->
+<!--                            <div class="layui-input-inline">-->
+<!--                                <input type="text" name="collection_voucherId" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
                         </div>
 
                         <div class="layui-inline">
@@ -79,10 +79,10 @@
             }],
             cols: [
                 [
-                    {field: 'collection_userId', width: 150, title: '用户ID'},
-                    {field: 'collection_voucherId', width: 100, title: '卡券ID'},
-                    {field: 'collection_count', width: 100, title: '数量'},
-                    {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+                    {field: 'collection_userId', width: 400, title: '用户ID'},
+                    {field: 'collection_voucherId', width: 400, title: '卡券ID'},
+                    {field: 'collection_count', width: 400, title: '数量'},
+                    // {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
                 ]
             ],
             limits: [3, 6, 9],
@@ -94,10 +94,10 @@
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             var collection_userId = data.field.collection_userId;
-            var collection_voucherId = data.field.collection_voucherId;
+            // var collection_voucherId = data.field.collection_voucherId;
             table.render({
                 elem: '#currentTableId',
-                url: '/collection/getCollectionListByCollectionUserId?collection_userId=' + collection_userId +'&collection_voucherId='+collection_voucherId,
+                url: '/collection/getCollectionListByCollectionUserId?collection_userId=' + collection_userId,
                 toolbar: '#toolbarDemo',
                 toolbar2: '#abcd',
                 defaultToolbar: ['filter', 'exports', 'print', {

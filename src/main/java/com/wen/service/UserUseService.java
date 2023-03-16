@@ -1,6 +1,9 @@
 package com.wen.service;
 
+import com.wen.pojo.Product;
 import com.wen.pojo.User;
+
+import java.util.List;
 
 /**
  * @作者：温
@@ -8,4 +11,6 @@ import com.wen.pojo.User;
  */
 public interface UserUseService {
     User selectByUserName(String userid, String password);
+
+    List<Product> searchByName(String text);
 }

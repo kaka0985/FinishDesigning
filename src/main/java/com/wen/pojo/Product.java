@@ -16,6 +16,7 @@ public class Product {
     private String product_package;//套餐信息
     private String product_status;//状态 0未上线 1已上线
     private String product_img;//产品图片
+    private String product_desc;//产品图片
 
     public int getProduct_id() {
         return product_id;
@@ -71,5 +72,13 @@ public class Product {
 
     public void setProduct_img(String product_img) {
         this.product_img = product_img;
+    }
+
+    public String getProduct_desc() {
+        return product_desc;
+    }
+
+    public void setProduct_desc(String product_desc) {
+        this.product_desc = product_desc;
     }
 }
