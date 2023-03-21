@@ -9,4 +9,16 @@
     <select id="searchByName" parameterType="String" resultType="com.wen.pojo.Product">
         select  *from product where product_name like "%${text}%"
     </select>
+    <select id="getOrderByUserId" parameterType="String"  resultType="com.wen.pojo.Order">
+        select * from userorder where order_userId=#{userId}
+    </select>
+    <select id="getProductByProductName" parameterType="String" resultType="com.wen.pojo.ProductAndUser">
+        select * from product where product_name=#{Product_name}
+    </select>
+    <select id="getProductByUserName" parameterType="String" resultType="com.wen.pojo.User">
+        select * from user where userid=#{user_id}
+    </select>
+    <update id="updateUserMember" parameterType="String">
+        update user set member="0" where userid=#{user_id}
+    </update>
 </mapper>

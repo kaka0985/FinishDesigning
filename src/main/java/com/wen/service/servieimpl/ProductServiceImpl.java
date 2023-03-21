@@ -52,4 +52,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductListByStatus(String product_status) {
         return productMapper.getProductListByStatus(product_status);
     }
+
+    @Override
+    public Integer updateProduct2(Product product) {
+        return productMapper.updateProduct2(product);
+    }
 }

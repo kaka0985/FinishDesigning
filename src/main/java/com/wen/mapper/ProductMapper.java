@@ -24,4 +24,6 @@ public interface ProductMapper {
     Integer deleteProduct(int product_id);
 
     List<Product> getProductListByStatus(String product_status);
+
+    Integer updateProduct2(Product product);
 }

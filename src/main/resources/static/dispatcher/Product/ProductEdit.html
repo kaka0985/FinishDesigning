@@ -52,6 +52,18 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label ">主演（用英文,）</label>
+        <div class="layui-input-block">
+            <input type="text" name="product_actor"  id="product_actor"   value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label ">剧集</label>
+        <div class="layui-input-block">
+            <input type="text" name="product_episode"  id="product_episode"   value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label ">价格</label>
         <div class="layui-input-block">
             <input type="text" name="product_price" id="product_price"   placeholder="请输入价格" value="" class="layui-input">
@@ -134,15 +146,6 @@
                 }
                 picture=data.mesg;
                 return layer.msg('上传成功');
-                // return layer.msg(picture );
-                // console(picture)
-                // success:function (data){
-                //     form.val("add", {
-                //         "product_img": data.mesg,
-                //     })
-                // }
-
-                //上传成功
             }
             ,error: function(){
                 //演示失败状态，并实现重传
@@ -189,6 +192,8 @@
                         "product_status": data.product_status,
                         "product_img": data.product_img,
                         "product_desc": data.product_desc,
+                        "product_actor": data.product_actor,
+                        "product_episode": data.product_episode,
                     })
                 },
                 error:function(){

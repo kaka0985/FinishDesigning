@@ -16,6 +16,8 @@ public class Order {
     private String order_createTime;//订单创建日期
     private String order_dueTime;//订单截止日期
     private String order_type;//购买类型1，单个购买2，套餐购买
+    private String order_cannel;//产品渠道
+    private String order_img;//产品图片
 
     public String getOrder_id() {
         return order_id;
@@ -79,5 +81,21 @@ public class Order {
 
     public void setOrder_type(String order_type) {
         this.order_type = order_type;
+    }
+
+    public String getOrder_cannel() {
+        return order_cannel;
+    }
+
+    public void setOrder_cannel(String order_cannel) {
+        this.order_cannel = order_cannel;
+    }
+
+    public String getOrder_img() {
+        return order_img;
+    }
+
+    public void setOrder_img(String order_img) {
+        this.order_img = order_img;
     }
 }
