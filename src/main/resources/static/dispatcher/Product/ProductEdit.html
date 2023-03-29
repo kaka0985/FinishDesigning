@@ -52,6 +52,22 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label required">类型</label>
+        <div class="layui-input-block">
+            <select name="product_style" id="product_style" lay-verify="">
+                <option value="喜剧">喜剧</option>
+                <option value="动作">动作</option>
+                <option value="动画">动画</option>
+                <option value="爱情">爱情</option>
+                <option value="恐怖">恐怖</option>
+                <option value="惊悚">惊悚</option>
+                <option value="科幻">科幻</option>
+                <option value="冒险">冒险</option>
+                <option value="犯罪">犯罪</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label ">主演（用英文,）</label>
         <div class="layui-input-block">
             <input type="text" name="product_actor"  id="product_actor"   value="" class="layui-input">
@@ -194,6 +210,7 @@
                         "product_desc": data.product_desc,
                         "product_actor": data.product_actor,
                         "product_episode": data.product_episode,
+                        "product_style": data.product_style,
                     })
                 },
                 error:function(){

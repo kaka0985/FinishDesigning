@@ -15,10 +15,31 @@
     <select id="getProductByProductName" parameterType="String" resultType="com.wen.pojo.ProductAndUser">
         select * from product where product_name=#{Product_name}
     </select>
+    <select id="getProductByProductNameAnother" parameterType="String" resultType="com.wen.pojo.Product">
+        select * from product where product_name=#{Product_name}
+    </select>
     <select id="getProductByUserName" parameterType="String" resultType="com.wen.pojo.User">
         select * from user where userid=#{user_id}
     </select>
     <update id="updateUserMember" parameterType="String">
         update user set member="0" where userid=#{user_id}
     </update>
+    <update id="BuyMonth" parameterType="String">
+        update  user set member_end=#{reStr} where  userid=#{User_id}
+    </update>
+    <update id="BuyMonthInitial" parameterType="String">
+        update  user set member_end=#{reStr} , member_start=#{format},member='1' where  userid=#{user_id}
+    </update>
+    <insert id="addUserOrder" parameterType="com.wen.pojo.Order">
+        insert into userorder (
+            order_userId,order_productId,order_commodity,order_price,
+            order_createTime,order_dueTime,order_type,order_cannel,order_img
+        )value (
+            #{order_userId},#{order_productId},#{order_commodity},#{order_price},#{order_createTime},
+            #{order_dueTime},#{order_type},#{order_cannel},#{order_img}
+            )
+    </insert>
+    <select id="getProductByCannel" parameterType="String" resultType="com.wen.pojo.Product">
+        select * from product where product_cannel=#{cannel}
+    </select>
 </mapper>

@@ -21,7 +21,10 @@ public class ProductAndUser {
     private String product_desc;//产品描述
     private String product_actor;//主演
     private String product_episode;//剧集
+    private String product_style;//类型
+
     private List<User> userList;
+    private int  OrderStatus;
 
     public int getProduct_id() {
         return product_id;
@@ -109,5 +112,13 @@ public class ProductAndUser {
 
     public void setUserList(List<User> userList) {
         this.userList = userList;
+    }
+
+    public int getOrderStatus() {
+        return OrderStatus;
+    }
+
+    public void setOrderStatus(int orderStatus) {
+        OrderStatus = orderStatus;
     }
 }

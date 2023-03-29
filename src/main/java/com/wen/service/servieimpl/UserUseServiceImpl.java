@@ -50,4 +50,29 @@ public class UserUseServiceImpl implements UserUseService {
     public Integer updateUserMember(String user_id) {
         return userUseMapper.updateUserMember(user_id);
     }
+
+    @Override
+    public Integer BuyMonth(String reStr,String User_id) {
+        return userUseMapper.BuyMonth(reStr,User_id);
+    }
+
+    @Override
+    public Integer BuyMonthInitial(String format, String reStr, String user_id) {
+        return userUseMapper.BuyMonthInitial(format,reStr,user_id);
+    }
+
+    @Override
+    public Product getProductByProductNameAnother(String product_name) {
+        return userUseMapper.getProductByProductNameAnother(product_name);
+    }
+
+    @Override
+    public Integer addUserOrder(Order order) {
+        return userUseMapper.addUserOrder(order);
+    }
+
+    @Override
+    public List<Product> getProductByCannel(String cannel) {
+        return userUseMapper.getProductByCannel(cannel);
+    }
 }

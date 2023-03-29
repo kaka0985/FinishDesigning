@@ -28,6 +28,7 @@
             product_desc = #{product_desc},
             product_actor = #{product_actor},
             product_episode = #{product_episode},
+            product_style = #{product_style},
         </set>
         where product_id = #{product_id}
     </update>
@@ -42,12 +43,13 @@
             product_desc = #{product_desc},
             product_actor = #{product_actor},
             product_episode = #{product_episode},
+            product_style = #{product_style},
         </set>
         where product_id = #{product_id}
     </update>
     <insert id="addProduct" parameterType="com.wen.pojo.Product">
-        insert into product (product_name,product_cannel,product_price,product_package,product_status,product_img,product_desc,product_actor,product_episode)
-        values (#{product_name},#{product_cannel},#{product_price},#{product_package},#{product_status},#{product_img},#{product_desc},#{product_actor},#{product_episode});
+        insert into product (product_name,product_cannel,product_price,product_package,product_status,product_img,product_desc,product_actor,product_episode,product_style)
+        values (#{product_name},#{product_cannel},#{product_price},#{product_package},#{product_status},#{product_img},#{product_desc},#{product_actor},#{product_episode},#{product_style});
     </insert>
     <delete id="deleteProduct" parameterType="Integer">
         delete from product where product_id="${product_id}"

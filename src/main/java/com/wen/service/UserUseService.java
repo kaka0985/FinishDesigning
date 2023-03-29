@@ -23,4 +23,14 @@ public interface UserUseService {
     List<User> getProductByUserName(String user_id);
 
     Integer updateUserMember(String user_id);
+
+    Integer BuyMonth(String reStr,String User_id);
+
+    Integer BuyMonthInitial(String format, String reStr, String user_id);
+
+    Product getProductByProductNameAnother(String product_name);
+
+    Integer addUserOrder(Order order);
+
+    List<Product> getProductByCannel(String cannel);
 }

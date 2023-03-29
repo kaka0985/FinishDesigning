@@ -168,9 +168,9 @@ public class ProductController {
         result.setCode(0);
         System.out.println(multipartFile);
         // File folder = new File(realPath + format);
-        String property = System.getProperty("user.dir");
+        String property = "D:\\idea\\毕设\\user";
         System.out.println(property);
-        File folder = new File(property + "/src/main/resources/static/products/");
+        File folder = new File(property + "/src/assets/img");
         if (!folder.isDirectory()) {
             if (!folder.mkdirs()) {
                 return result;
@@ -186,7 +186,7 @@ public class ProductController {
         }
         //以上都是普通代码, 这里的/files/ 对应的就是你在WebMvcConfig设置的地址映射
         System.out.println(req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/products" + "/" + newName);
-        String pictureUrl = "/products" + "/" + newName;
+        String pictureUrl = "http://127.0.0.1:8081/src/assets/img/"+ newName;
         result.setCode(1);
         result.setMesg(pictureUrl);
         return result;

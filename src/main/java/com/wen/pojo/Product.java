@@ -19,6 +19,7 @@ public class Product {
     private String product_desc;//产品描述
     private String product_actor;//主演
     private String product_episode;//剧集
+    private String product_style;//类型
 
     public int getProduct_id() {
         return product_id;
@@ -82,5 +83,29 @@ public class Product {
 
     public void setProduct_desc(String product_desc) {
         this.product_desc = product_desc;
+    }
+
+    public String getProduct_actor() {
+        return product_actor;
+    }
+
+    public void setProduct_actor(String product_actor) {
+        this.product_actor = product_actor;
+    }
+
+    public String getProduct_episode() {
+        return product_episode;
+    }
+
+    public void setProduct_episode(String product_episode) {
+        this.product_episode = product_episode;
+    }
+
+    public String getProduct_style() {
+        return product_style;
+    }
+
+    public void setProduct_style(String product_style) {
+        this.product_style = product_style;
     }
 }
