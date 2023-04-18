@@ -1,9 +1,6 @@
 package com.wen.service;
 
-import com.wen.pojo.Order;
-import com.wen.pojo.Product;
-import com.wen.pojo.ProductAndUser;
-import com.wen.pojo.User;
+import com.wen.pojo.*;
 
 import java.util.List;
 
@@ -33,4 +30,22 @@ public interface UserUseService {
     Integer addUserOrder(Order order);
 
     List<Product> getProductByCannel(String cannel);
+
+    List<UserVoucherCollection> getVoucher();
+
+    List<UserCollection> getUserCollection(String user_id);
+
+    Integer addUserVoucherCollection(UserCollection userCollection);
+
+    Integer addUserVOucherUsage(VoucherUsage voucherUsage);
+
+    Integer deletUserCollection(UserCollection collection);
+
+    Integer registerUser(User user);
+
+    List<ProPackage> selectPackage();
+
+    ProPackage getPackageByID(String package_id);
+
+    Order getOrderByUserIdAndPackage_Name(String user_id, String package_name);
 }

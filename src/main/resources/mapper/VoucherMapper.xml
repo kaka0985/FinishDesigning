@@ -11,8 +11,8 @@
         select * from voucher where voucher_name like "%${voucher_name}%" and voucher_scene like "%${voucher_scene}%"
     </select>
         <insert id="addVoucher" parameterType="com.wen.pojo.Voucher">
-            insert into voucher (voucher_name,voucher_count,voucher_scene,start_time,voucher_mon,end_time)
-            values (#{voucher_name},#{voucher_count},#{voucher_scene},#{start_time},#{voucher_mon},#{end_time});
+            insert into voucher (voucher_name,voucher_count,voucher_scene,start_time,voucher_mon,end_time,voucher_desc)
+            values (#{voucher_name},#{voucher_count},#{voucher_scene},#{start_time},#{voucher_mon},#{end_time},#{voucher_desc});
         </insert>
     <select id="getVoucherByIdAccurate" parameterType="com.wen.pojo.Voucher" resultType="com.wen.pojo.Voucher">
        select * from voucher where Voucher_id="${Voucher_id}"
@@ -26,6 +26,7 @@
             start_time = #{start_time},
             voucher_mon = #{voucher_mon},
             end_time = #{end_time},
+            voucher_desc = #{voucher_desc},
         </set>
         where voucher_id = #{voucher_id}
     </update>

@@ -2,12 +2,14 @@ package com.wen.pojo;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @作者：温
- * @时间：2023/2/23 16:04
+ * @时间：2023/4/4 17:41
  */
 @Data
-public class Voucher {
+public class UserVoucherCollection {
     private String voucher_id;
     private String voucher_name;
     private String voucher_count;//数量
@@ -16,9 +18,17 @@ public class Voucher {
     private String end_time;
     private String voucher_mon;//优惠金额
     private String voucher_desc;//优惠描述
+    private String userCollections;//用户是否领取
+
+    public String getUserCollections() {
+        return userCollections;
+    }
+
+    public void setUserCollections(String userCollections) {
+        this.userCollections = userCollections;
+    }
 
     public String getVoucher_id() {
-
         return voucher_id;
     }
 

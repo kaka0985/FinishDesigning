@@ -21,6 +21,9 @@
     <select id="getProductByUserName" parameterType="String" resultType="com.wen.pojo.User">
         select * from user where userid=#{user_id}
     </select>
+    <select id="getUserByUserName" parameterType="String" resultType="com.wen.pojo.UserVoucherCollection">
+        select * from user where userid=#{user_id}
+    </select>
     <update id="updateUserMember" parameterType="String">
         update user set member="0" where userid=#{user_id}
     </update>
@@ -41,5 +44,45 @@
     </insert>
     <select id="getProductByCannel" parameterType="String" resultType="com.wen.pojo.Product">
         select * from product where product_cannel=#{cannel}
+    </select>
+    <select id="getVoucher" parameterType="com.wen.pojo.UserVoucherCollection" resultType="com.wen.pojo.UserVoucherCollection">
+        select * from voucher
+    </select>
+    <select id="getUserCollection" parameterType="String" resultType="com.wen.pojo.UserCollection">
+        select * from collection where collection_userId=#{user_id}
+    </select>
+    <insert id="addUserVoucherCollection" parameterType="com.wen.pojo.UserCollection" >
+        insert into collection (
+            collection_userId,collection_voucherId,collection_count
+        )value (
+            #{collection_userId},#{collection_voucherId},#{collection_count}
+        )
+    </insert>
+    <insert id="addUserVOucherUsage" parameterType="com.wen.pojo.VoucherUsage">
+        insert into voucherUsage (
+            VoucherUsage_userID,VoucherUsage_voucherID,VoucherUsage_CreateTime
+        )
+        values (#{VoucherUsage_userID},#{VoucherUsage_voucherID},#{VoucherUsage_CreateTime});
+    </insert>
+    <delete id="deletUserCollection" parameterType="com.wen.pojo.UserCollection">
+        delete  from collection where collection_userId=#{collection_userId} and collection_voucherId=#{collection_voucherId}
+    </delete>
+    <insert id="registerUser" parameterType="com.wen.pojo.User">
+        insert into user (
+            userid,password,nick_name,age,sex,address
+        )value (
+            #{userid},#{password},#{nick_name},#{age},#{sex},#{address}
+            )
+    </insert>
+    <select id="selectPackage" resultType="com.wen.pojo.ProPackage">
+        select *
+        from package;
+    </select>
+    <select id="getPackageByID" parameterType="String" resultType="com.wen.pojo.ProPackage">
+        select * from package where package_id=#{package_id}
+    </select>
+    <select id="getOrderByUserIdAndPackage_Name" parameterType="String" resultType="com.wen.pojo.Order">
+        select *
+        from userorder where order_userId=#{user_id} and order_commodity=#{package_name};
     </select>
 </mapper>

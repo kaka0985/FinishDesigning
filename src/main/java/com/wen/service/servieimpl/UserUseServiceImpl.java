@@ -1,10 +1,7 @@
 package com.wen.service.servieimpl;
 
 import com.wen.mapper.UserUseMapper;
-import com.wen.pojo.Order;
-import com.wen.pojo.Product;
-import com.wen.pojo.ProductAndUser;
-import com.wen.pojo.User;
+import com.wen.pojo.*;
 import com.wen.service.UserUseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,4 +72,51 @@ public class UserUseServiceImpl implements UserUseService {
     public List<Product> getProductByCannel(String cannel) {
         return userUseMapper.getProductByCannel(cannel);
     }
+
+    @Override
+    public List<UserVoucherCollection> getVoucher() {
+        return userUseMapper.getVoucher();
+    }
+
+    @Override
+    public List<UserCollection> getUserCollection(String user_id) {
+        return userUseMapper.getUserCollection(user_id);
+    }
+
+    @Override
+    public Integer addUserVoucherCollection(UserCollection userCollection) {
+       return userUseMapper.addUserVoucherCollection(userCollection);
+    }
+
+    @Override
+    public Integer addUserVOucherUsage(VoucherUsage voucherUsage) {
+        return userUseMapper.addUserVOucherUsage(voucherUsage);
+    }
+
+    @Override
+    public Integer deletUserCollection(UserCollection collection) {
+        return userUseMapper.deletUserCollection(collection);
+    }
+
+    @Override
+    public Integer registerUser(User user) {
+        return userUseMapper.registerUser(user);
+    }
+
+    @Override
+    public List<ProPackage> selectPackage() {
+        return userUseMapper.selectPackage();
+    }
+
+    @Override
+    public ProPackage getPackageByID(String package_id) {
+        return userUseMapper.getPackageByID(package_id);
+    }
+
+    @Override
+    public Order getOrderByUserIdAndPackage_Name(String user_id, String package_name) {
+        return userUseMapper.getOrderByUserIdAndPackage_Name(user_id,package_name);
+    }
+
+
 }
